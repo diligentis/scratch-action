@@ -29,14 +29,28 @@ async function run(): Promise<void> {
 
     const result = await exec.exec(
       'git',
-      ['diff', '--numstat', 'origin/main'],
+      ['diff', '-w', '--numstat', 'origin/main'],
       options
     )
     if (result !== 0) {
       core.setFailed(myError)
       return
     }
-    core.info(myOutput)
+
+    let count = 0
+    const lines = myOutput.split('\n')
+    for (const line of lines) {
+      core.debug(`output: ${line}`)
+      const elems = line.split(/\s+/)
+      if (elems.length < 3 || elems[0] === '-') {
+        continue
+      }
+      let val = parseInt(elems[0])
+      count = count + val
+      val = parseInt(elems[1])
+      count = count + val
+    }
+    core.info(`got ${count} lines`)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
