@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
+
 import {wait} from './wait'
 
 async function run(): Promise<void> {
@@ -26,7 +27,11 @@ async function run(): Promise<void> {
       }
     }
 
-    const result = await exec.exec('git', ['diff', '--numstat'], options)
+    const result = await exec.exec(
+      'git',
+      ['diff', '--numstat', 'main'],
+      options
+    )
     if (result !== 0) {
       core.setFailed(myError)
       return
