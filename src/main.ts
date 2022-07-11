@@ -29,7 +29,7 @@ async function run(): Promise<void> {
 
     const result = await exec.exec(
       'git',
-      ['diff', '--numstat', 'main'],
+      ['diff', '--numstat', 'origin/main'],
       options
     )
     if (result !== 0) {

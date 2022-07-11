@@ -62,7 +62,7 @@ function run() {
                     myError += data.toString();
                 }
             };
-            const result = yield exec.exec('git', ['diff', '--numstat', 'main'], options);
+            const result = yield exec.exec('git', ['diff', '--numstat', 'origin/main'], options);
             if (result !== 0) {
                 core.setFailed(myError);
                 return;
